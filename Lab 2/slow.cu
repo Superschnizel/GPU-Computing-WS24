@@ -1,3 +1,4 @@
+#include <format>
 #include <random>
 #include <iostream>
 #include <chrono>
@@ -46,7 +47,7 @@ __global__ void vectorAdd(const int32_t *A, const int32_t *B,
     }
 }
 
-__global__ void setZero(const int32_t *A) {
+__global__ void setZero(int32_t *A) {
     int i = blockDim.x * blockIdx.x + threadIdx.x;
     A[i] = 0;
 }
@@ -79,6 +80,8 @@ void pretty_print(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
 int main() {
     // int32_t size = 3;
     int32_t size = 32768;
+
+    cudaError_t err = cudaSuccess;
 
     auto h_vec_a = (int32_t *) malloc(sizeof(int32_t) * size);
     auto h_vec_b = (int32_t *) malloc(sizeof(int32_t) * size);
