@@ -1,4 +1,3 @@
-#include <format>
 #include <random>
 #include <iostream>
 #include <chrono>
