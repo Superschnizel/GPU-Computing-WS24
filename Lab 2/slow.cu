@@ -100,7 +100,7 @@ void pretty_print(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
 int main() {
     // int32_t size = 3;
     //int32_t size = 32768;
-    int32_t size = 1024;
+    int32_t size = 2048;
 
     cudaError_t err = cudaSuccess;
 
@@ -185,9 +185,9 @@ int main() {
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
     check(cudaGetLastError(), "Failed to launch matrixMult kernel");
 
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-    if (cudaerror != cudaSuccess)
-        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+//    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+//    if (cudaerror != cudaSuccess)
+//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
     auto end = std::chrono::system_clock::now();
 
