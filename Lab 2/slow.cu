@@ -132,13 +132,13 @@ int main() {
     check(err, "Failed to allocate device Matrix");
 
     std::cout << "Copy input data from the host memory to the CUDA device\n";
-    err = cudaMemcpy(d_vec_a, h_vec_a, size, cudaMemcpyHostToDevice);
+    err = cudaMemcpy(d_vec_a, h_vec_a.begin(), size, cudaMemcpyHostToDevice);
     check(err, "Failed to copy vector A from host to device");
 
-    err = cudaMemcpy(d_vec_b, h_vec_b, size, cudaMemcpyHostToDevice);
+    err = cudaMemcpy(d_vec_b, h_vec_b.begin(), size, cudaMemcpyHostToDevice);
     check(err, "Failed to copy vector B from host to device");
 
-    err = cudaMemcpy(d_mat, h_mat, size * size, cudaMemcpyHostToDevice);
+    err = cudaMemcpy(d_mat, h_mat.begin(), size * size, cudaMemcpyHostToDevice);
     check(err, "Failed to copy Matrix from host to device");
     // pretty_print(size, vec_a, vec_b, mat);
 
