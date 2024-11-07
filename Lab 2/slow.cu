@@ -73,7 +73,7 @@ __global__ void matrixMult(const int32_t size, const int32_t *V, const int32_t *
     int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        sum += M[j * size + i];
+        sum += V[j] * M[j * size + i];
     }
 
     out[i] = sum;
