@@ -1,4 +1,3 @@
-#include <format>
 #include <iostream>
 #include <random>
 #include <iostream>
@@ -8,7 +7,7 @@
 
 void check(cudaError_t err, std::string msg) {
     if (err != cudaSuccess) {
-        std::cerr << std::format("{} (error code %s)\n", msg, cudaGetErrorString(err));
+        std::cerr << msg << "(error code:" << cudaGetErrorString(err) << ")";
         exit(EXIT_FAILURE);
     }
 }
