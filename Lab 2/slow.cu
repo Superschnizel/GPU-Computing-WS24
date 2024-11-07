@@ -98,7 +98,7 @@ int main() {
     auto h_vec_a = (int32_t *) malloc(sizeof(int32_t) * size);
     auto h_vec_b = (int32_t *) malloc(sizeof(int32_t) * size);
     // Flat Buffer for matrix
-    auto h_mat = (int32_t *) malloc(sizeof(int32_t) * size * size);
+    auto h_mat = (int32_t *) malloc(sizeof(int32_t * ) * size * size);
     if (h_mat == NULL) {
         std::cout << "mat is NULL!" << std::endl;
         return ;
