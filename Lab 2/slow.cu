@@ -148,6 +148,16 @@ int main() {
     int numberOfThreadsPerBlock = 256;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
+    std::cout << "setting d_out to 0" << std::endl;
+    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_out);
+
+    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    if (cudaerror != cudaSuccess) {
+        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+
+    }
+
+    std::cout << "vector add" << std::endl;
     vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
 
     cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
@@ -155,6 +165,7 @@ int main() {
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
     }
 
+    std::cout << "setting A to zero" << std::endl;
     setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
 
     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
@@ -167,6 +178,7 @@ int main() {
     const int32_t twoDimBlockCount = ceil(size / GRIDSIZE);
     dim3 numBlocks(twoDimBlockCount, twoDimBlockCount, 1);
 
+    std::cout << "matrix mult" << std::endl;
     matrixMult <<< numBlocks, threadsPerBlock >>>(size, d_out, d_mat, d_vec_a);
 
     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
