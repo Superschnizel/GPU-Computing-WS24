@@ -1,8 +1,10 @@
+#include <format>
+#include <iostream>
 #include <random>
 #include <iostream>
 #include <chrono>
 
-#define GRIDSIZE = 16;
+#define GRIDSIZE 16.0;
 
 void check(cudaError_t err, std::string msg) {
     if (err != cudaSuccess) {
