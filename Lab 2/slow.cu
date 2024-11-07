@@ -134,7 +134,7 @@ int main() {
 
     setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
 
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess) {
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
@@ -144,26 +144,26 @@ int main() {
     const int32_t twoDimBlockCount = ceil(size / GRIDSIZE);
     dim3 numBlocks(twoDimBlockCount, twoDimBlockCount, 1);
 
-    matrixMult <<< numBlocks, threadsPerBlock >>> (size, d_out, d_mat, d_vec_a);
+    matrixMult <<< numBlocks, threadsPerBlock >>>(size, d_out, d_mat, d_vec_a);
 
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
     auto start = std::chrono::system_clock::now();
     auto end = std::chrono::system_clock::now();
 
-    std::cout << "First 3 entries of Out Vec:" << std::endl;
-    for (int32_t i = 0; i < 3; i++)
-        std::cout << out[i] << std::endl;
+//    std::cout << "First 3 entries of Out Vec:" << std::endl;
+//    for (int32_t i = 0; i < 3; i++)
+//        std::cout << out[i] << std::endl;
 
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
 
-    free(vec_a);
-    free(vec_b);
-    free(mat);
-    free(out);
+    free(d_vec_a);
+    free(d_vec_b);
+    free(d_mat);
+    free(d_out);
 
     return 0;
 }
