@@ -14,13 +14,20 @@ void check(cudaError_t err, std::string msg) {
 
 void init(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
     // std::random_device dev;
+
+    std::cout << "Initializing..." << std::endl;
+
     std::mt19937 prng(2024);
     std::uniform_int_distribution <int32_t> distrib(-16, 16);
+
+    std::cout << "filling vec_a and b" << std::endl;
 
     for (auto i = 0; i < size; i++) {
         vec_a[i] = distrib(prng);
         vec_b[i] = distrib(prng);
     }
+
+    std::cout << "filling mat" << std::endl;
 
     for (auto i = 0; i < size * size; i++)
         mat[i] = distrib(prng);
