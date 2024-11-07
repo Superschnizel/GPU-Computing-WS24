@@ -67,6 +67,10 @@ __global__ void matrixMult(const int32_t size, const int32_t *V, const int32_t *
     int i = threadIdx.x + blockIdx.x * blockDim.x;
     int j = threadIdx.y + blockIdx.y * blockDim.y;
 
+    if (i >= size || j >= size) {
+        return;
+    }
+
     out[i] += V[j] * M[i * size + j];
 }
 
