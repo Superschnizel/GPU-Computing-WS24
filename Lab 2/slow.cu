@@ -196,7 +196,7 @@ int main() {
     auto h_out2 = std::vector<int32_t>(size);
     compute(size, h_vec_a.data(), h_vec_b.data(), h_mat.data(), h_out2.data());
 
-    for (int i : size) {
+    for (int i = 0 ; i < size; i++) {
         if (h_out[i] != h_out2[i]) {
             std::cerr << "Result verification failed."
             exit(EXIT_FAILURE);
