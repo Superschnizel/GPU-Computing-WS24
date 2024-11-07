@@ -160,7 +160,7 @@ int main() {
     int numberOfThreadsPerBlock = 64;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
-    std::cout << "threads: " << 64 << "\nblocks: " << numberOfThreadsPerBlock << std::endl;
+    std::cout << "threads: " << numberOfThreadsPerBlock << "\nblocks: " << oneDimBlockCount << std::endl;
 
 //    std::cout << "vector add" << std::endl;
 //    vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
