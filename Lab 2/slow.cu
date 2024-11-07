@@ -73,7 +73,7 @@ __global__ void matrixMult(const int32_t size, const int32_t *V, const int32_t *
     int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        sum += V[j] * M[i * size + j];
+        sum += V[j] * M[j * size + i];
     }
 
     out[i] = sum;
@@ -173,10 +173,6 @@ int main() {
 //        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 //
 //    }
-
-    dim3 threadsPerBlock((int) GRIDSIZE,(int) GRIDSIZE, 1);
-    const int twoDimBlockCount = ceil(size / GRIDSIZE);
-    dim3 numBlocks(twoDimBlockCount, twoDimBlockCount, 1);
 
     std::cout << "matrix mult" << std::endl;
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_vec_a);
