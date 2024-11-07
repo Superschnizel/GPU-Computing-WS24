@@ -183,7 +183,7 @@ int main() {
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
 
     std::cout << "Copy output data from the CUDA device to the host memory\n";
-    err = cudaMemcpy(h_out.data(), d_out, size, cudaMemcpyDeviceToHost);
+    err = cudaMemcpy(h_out.data(), d_vec_a, size, cudaMemcpyDeviceToHost);
     check(err, "Failed to copy vector C from device to host");
 
     auto h_out2 = std::vector<int32_t>(size);
