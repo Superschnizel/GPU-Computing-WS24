@@ -108,7 +108,7 @@ int main() {
     check(err, "Failed to allocate device Matrix");
 
     std::cout << "Copy input data from the host memory to the CUDA device\n";
-    err = cudaMemcpy(d_vec_a, h_vec_a.data(), size, cudaMemcpyHostToDevice);
+    err = cudaMemcpy(d_vec_a, h_vec_a, size, cudaMemcpyHostToDevice);
     check(err, "Failed to copy vector A from host to device");
 
     err = cudaMemcpy(d_vec_b, h_vec_b, size, cudaMemcpyHostToDevice);
@@ -118,9 +118,9 @@ int main() {
     check(err, "Failed to copy Matrix from host to device");
     // pretty_print(size, vec_a, vec_b, mat);
 
-    const int32_t numberOfThreadsPerBlock = GRIDSIZE
-    * GRIDSIZE;
-    const int32_t oneDimBlockCount = ceil(size / (double) NumberOfThreadsPerBlock);
+
+    const int32_t numberOfThreadsPerBlock = (int32_t) GRIDSIZE * GRIDSIZE;
+    const int32_t oneDimBlockCount = ceil(size / (double) numberOfThreadsPerBlock);
 
     vectorAdd << oneDimBlockCount, numberOfThreadsPerBlock >> (d_vec_a, d_vec_b, d_out, size);
 
