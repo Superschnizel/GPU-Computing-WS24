@@ -181,7 +181,7 @@ int main() {
 //    }
 
     std::cout << "matrix mult" << std::endl;
-    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_out2);
+    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
 
     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
