@@ -32,8 +32,6 @@ void init(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
 
     for (auto i = 0; i < size * size; i++) {
         mat[i] = distrib(prng);
-
-        std::cout << i << ", ";
     }
 
     std::cout << "Initialized" << std::endl;
