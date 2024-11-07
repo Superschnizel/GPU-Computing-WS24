@@ -194,7 +194,7 @@ int main() {
     check(err, "Failed to copy vector C from device to host");
 
     auto h_out2 = std::vector<int32_t>(size);
-    compute(size, h_vec_a, h_vec_b, h_mat, h_out2);
+    compute(size, h_vec_a.data(), h_vec_b.data(), h_mat.data(), h_out2.data());
 
     for (int i : size) {
         if (h_out[i] != h_out2[i]) {
