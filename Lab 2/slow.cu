@@ -196,11 +196,6 @@ int main() {
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
 
-    free(h_vec_a);
-    free(h_vec_b);
-    free(h_mat);
-    free(h_out);
-
     err = cudaFree(d_vec_a);
     check(err, "Failed to free device vector A");
     err = cudaFree(d_vec_b);
