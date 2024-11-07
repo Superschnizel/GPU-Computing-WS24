@@ -135,6 +135,10 @@ int main() {
     err = cudaMalloc((void **) &d_out, size);
     check(err, "Failed to allocate device vector OUT");
 
+    int32_t *d_out2 = NULL;
+    err = cudaMalloc((void **) &d_out2, size);
+    check(err, "Failed to allocate device vector OUT2");
+
     int32_t *d_mat = NULL;
     err = cudaMalloc((void **) &d_mat, size * size);
     check(err, "Failed to allocate device Matrix");
@@ -153,6 +157,8 @@ int main() {
 
 //    int numberOfThreadsPerBlock = (int) GRIDSIZE * GRIDSIZE;
 //    int oneDimBlockCount = (int) ceil(size / (double) numberOfThreadsPerBlock);
+
+    auto start = std::chrono::system_clock::now();
 
     int numberOfThreadsPerBlock = 256;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
@@ -175,13 +181,12 @@ int main() {
 //    }
 
     std::cout << "matrix mult" << std::endl;
-    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_vec_a);
+    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_out2);
 
     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
-    auto start = std::chrono::system_clock::now();
     auto end = std::chrono::system_clock::now();
 
 //    std::cout << "First 3 entries of Out Vec:" << std::endl;
