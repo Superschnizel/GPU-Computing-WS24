@@ -29,8 +29,11 @@ void init(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
 
     std::cout << "filling mat" << std::endl;
 
-    for (auto i = 0; i < size * size; i++)
+    for (auto i = 0; i < size * size; i++) {
         mat[i] = distrib(prng);
+    }
+
+    std::cout << "Initialized" << std::endl;
 }
 
 void compute(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat, int32_t *out) {
