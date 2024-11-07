@@ -198,10 +198,12 @@ int main() {
 
     for (int i = 0 ; i < size; i++) {
         if (h_out[i] != h_out2[i]) {
-            std::cerr << "Result verification failed." << std::endl;
+            std::cerr << "Result verification failed at element " << i << std::endl;
             exit(EXIT_FAILURE);
         }
     }
+
+    std::cout << "Result verified" << std::endl;
 
     err = cudaFree(d_vec_a);
     check(err, "Failed to free device vector A");
