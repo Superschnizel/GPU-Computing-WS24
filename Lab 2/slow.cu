@@ -136,10 +136,6 @@ int main() {
     err = cudaMalloc((void **) &d_out, size);
     check(err, "Failed to allocate device vector OUT");
 
-    int32_t *d_out2 = NULL;
-    err = cudaMalloc((void **) &d_out2, size);
-    check(err, "Failed to allocate device vector OUT2");
-
     int32_t *d_mat = NULL;
     err = cudaMalloc((void **) &d_mat, size * size);
     check(err, "Failed to allocate device Matrix");
@@ -185,18 +181,27 @@ int main() {
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
     check(cudaGetLastError(), "Failed to launch matrixMult kernel");
 
-//    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-//    if (cudaerror != cudaSuccess)
-//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    if (cudaerror != cudaSuccess)
+        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
     auto end = std::chrono::system_clock::now();
-
-//    std::cout << "First 3 entries of Out Vec:" << std::endl;
-//    for (int32_t i = 0; i < 3; i++)
-//        std::cout << out[i] << std::endl;
-
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
+
+    std::cout << "Copy output data from the CUDA device to the host memory\n";
+    err = cudaMemcpy(h_out.data(), d_out, size, cudaMemcpyDeviceToHost);
+    check(err, "Failed to copy vector C from device to host");
+
+    auto h_out2 = std::vector<int32_t>(size);
+    compute(size, h_vec_a, h_vec_b, h_mat, h_out2);
+
+    for (int i : size) {
+        if (h_out[i] != h_out2[i]) {
+            std::cerr << "Result verification failed."
+            exit(EXIT_FAILURE);
+        }
+    }
 
     err = cudaFree(d_vec_a);
     check(err, "Failed to free device vector A");
