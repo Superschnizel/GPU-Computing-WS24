@@ -183,6 +183,7 @@ int main() {
 
     std::cout << "matrix mult" << std::endl;
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
+    check(cudaGetLastError(), "Failed to launch matrixMult kernel");
 
     cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
