@@ -70,11 +70,13 @@ __global__ void matrixMult(const int32_t size, const int32_t *V, const int32_t *
         return;
     }
 
-    out[i] = 0;
+    int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        out[i] += V[j] * M[i * size + j];
+        sum += V[j] * M[i * size + j];
     }
+
+    out[i] = sum;
 }
 
 void pretty_print(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
