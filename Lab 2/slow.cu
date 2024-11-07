@@ -73,7 +73,7 @@ __global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *
     int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        sum += M[j * size + i];
+        sum += (A[j] + B[j]) * M[j * size + i];
     }
 
     out[i] = sum;
@@ -163,13 +163,13 @@ int main() {
     int numberOfThreadsPerBlock = 256;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
-    std::cout << "vector add" << std::endl;
-    vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
-
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-    if (cudaerror != cudaSuccess) {
-        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
-    }
+//    std::cout << "vector add" << std::endl;
+//    vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
+//
+//    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+//    if (cudaerror != cudaSuccess) {
+//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+//    }
 
 //    std::cout << "setting A to zero" << std::endl;
 //    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
