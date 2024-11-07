@@ -63,7 +63,7 @@ __global__ void setZero(int32_t *A) {
     A[i] = 0;
 }
 
-__global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *B, const int32_t *M, int32_t *out) {
+__global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *M, int32_t *out) {
     int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (i >= size) {
@@ -73,7 +73,7 @@ __global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *
     int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        sum += (A[j] + B[j]) * M[i * size + j];
+        sum += A[j] * M[i * size + j];
     }
 
     out[i] = sum;
@@ -162,25 +162,16 @@ int main() {
 
     std::cout << "threads: " << numberOfThreadsPerBlock << "\nblocks: " << oneDimBlockCount << std::endl;
 
-//    std::cout << "vector add" << std::endl;
-//    vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
-//
-//    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-//    if (cudaerror != cudaSuccess) {
-//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
-//    }
+    std::cout << "vector add" << std::endl;
+    vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
 
-//    std::cout << "setting A to zero" << std::endl;
-//    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
-//
-//    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-//    if (cudaerror != cudaSuccess) {
-//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
-//
-//    }
+    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    if (cudaerror != cudaSuccess) {
+        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+    }
 
     std::cout << "matrix mult" << std::endl;
-    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
+    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_vec_a);
     check(cudaGetLastError(), "Failed to launch matrixMult kernel");
 
     cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
