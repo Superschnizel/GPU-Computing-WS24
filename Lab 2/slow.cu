@@ -196,10 +196,21 @@ int main() {
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
 
-    free(d_vec_a);
-    free(d_vec_b);
-    free(d_mat);
-    free(d_out);
+    free(h_vec_a);
+    free(h_vec_b);
+    free(h_mat);
+    free(h_out);
+
+    err = cudaFree(d_vec_a);
+    check(err, "Failed to free device vector A");
+    err = cudaFree(d_vec_b);
+    check(err, "Failed to free device vector B");
+    err = cudaFree(d_mat);
+    check(err, "Failed to free device vector C");
+    err = cudaFree(d_out);
+    check(err, "Failed to free device vector C");
+    err = cudaFree(d_out2);
+    check(err, "Failed to free device vector C");
 
     return 0;
 }
