@@ -104,6 +104,7 @@ int main() {
 
     cudaError_t err = cudaSuccess;
 
+    std::cout << "Size: " << size << std::endl;
 //    auto h_vec_a = (int32_t *) malloc(sizeof(int32_t) * size);
 //    auto h_vec_b = (int32_t *) malloc(sizeof(int32_t) * size);
 //    // Flat Buffer for matrix
