@@ -148,18 +148,10 @@ int main() {
     int numberOfThreadsPerBlock = 256;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
-    std::cout << "setting d_out to 0" << std::endl;
-    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_out);
-
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-    if (cudaerror != cudaSuccess) {
-        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
-    }
-
     std::cout << "vector add" << std::endl;
     vectorAdd<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(d_vec_a, d_vec_b, d_out, size);
 
-     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess) {
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
     }
