@@ -161,7 +161,7 @@ int main() {
 
     auto start = std::chrono::system_clock::now();
 
-    int numberOfThreadsPerBlock = 16;
+    int numberOfThreadsPerBlock = 64;
     int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
 //    std::cout << "vector add" << std::endl;
