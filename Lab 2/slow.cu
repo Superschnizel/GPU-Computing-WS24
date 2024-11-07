@@ -65,14 +65,16 @@ __global__ void setZero(int32_t *A) {
 
 __global__ void matrixMult(const int32_t size, const int32_t *V,  int32_t *M, int32_t *out) {
     int i = threadIdx.x + blockIdx.x * blockDim.x;
-    int j = threadIdx.y + blockIdx.y * blockDim.y;
 
-    if (i >= size || j >= size) {
+    if (i >= size) {
         return;
     }
 
-//    out[i] += V[j] * M[i * size + j];
-    int test = V[j] * M[i * size + j];
+    out[i] = 0;
+
+    for (auto i = 0; j < size; j++) {
+        out[i] += V[j] * M[i * size + j];
+    }
 }
 
 void pretty_print(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
@@ -161,21 +163,21 @@ int main() {
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
     }
 
-    std::cout << "setting A to zero" << std::endl;
-    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
-
-    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
-    if (cudaerror != cudaSuccess) {
-        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
-
-    }
+//    std::cout << "setting A to zero" << std::endl;
+//    setZero <<< oneDimBlockCount, numberOfThreadsPerBlock >>>(d_vec_a);
+//
+//    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+//    if (cudaerror != cudaSuccess) {
+//        fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
+//
+//    }
 
     dim3 threadsPerBlock((int) GRIDSIZE,(int) GRIDSIZE, 1);
     const int twoDimBlockCount = ceil(size / GRIDSIZE);
     dim3 numBlocks(twoDimBlockCount, twoDimBlockCount, 1);
 
     std::cout << "matrix mult" << std::endl;
-    matrixMult <<< numBlocks, threadsPerBlock >>>(size, d_out, d_mat, d_vec_a);
+    matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_vec_a);
 
     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
