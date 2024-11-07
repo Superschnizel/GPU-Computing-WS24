@@ -169,8 +169,8 @@ int main() {
 
     }
 
-    dim3 threadsPerBlock(GRIDSIZE, GRIDSIZE, 1);
-    const int32_t twoDimBlockCount = ceil(size / GRIDSIZE);
+    dim3 threadsPerBlock((int) GRIDSIZE,(int) GRIDSIZE, 1);
+    const int twoDimBlockCount = ceil(size / GRIDSIZE);
     dim3 numBlocks(twoDimBlockCount, twoDimBlockCount, 1);
 
     std::cout << "matrix mult" << std::endl;
