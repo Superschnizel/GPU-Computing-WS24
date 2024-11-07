@@ -100,7 +100,7 @@ void pretty_print(int32_t size, int32_t *vec_a, int32_t *vec_b, int32_t *mat) {
 int main() {
     // int32_t size = 3;
     //int32_t size = 32768;
-    int32_t size = 128;
+    int32_t size = 512;
 
     cudaError_t err = cudaSuccess;
 
