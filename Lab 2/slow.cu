@@ -211,8 +211,6 @@ int main() {
     check(err, "Failed to free device vector C");
     err = cudaFree(d_out);
     check(err, "Failed to free device vector C");
-    err = cudaFree(d_out2);
-    check(err, "Failed to free device vector C");
 
     return 0;
 }
