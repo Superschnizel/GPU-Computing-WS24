@@ -119,10 +119,13 @@ int main() {
     // pretty_print(size, vec_a, vec_b, mat);
 
 
-    int numberOfThreadsPerBlock = (int) GRIDSIZE * GRIDSIZE;
+//    int numberOfThreadsPerBlock = (int) GRIDSIZE * GRIDSIZE;
+//    int oneDimBlockCount = (int) ceil(size / (double) numberOfThreadsPerBlock);
+
+    int numberOfThreadsPerBlock = 256;
     int oneDimBlockCount = (int) ceil(size / (double) numberOfThreadsPerBlock);
 
-    vectorAdd << oneDimBlockCount, numberOfThreadsPerBlock >> (d_vec_a, d_vec_b, d_out, size);
+    vectorAdd<<oneDimBlockCount, numberOfThreadsPerBlock>>(d_vec_a, d_vec_b, d_out, size);
 
     cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess) {
