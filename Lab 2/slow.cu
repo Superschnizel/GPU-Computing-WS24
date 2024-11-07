@@ -192,6 +192,7 @@ int main() {
     for (int i = 0 ; i < size; i++) {
         if (h_out[i] != h_out2[i]) {
             std::cerr << "Result verification failed at element " << i << std::endl;
+            std::cerr << "out gpu: " << h_out[i] << ", out cpu: " << h_out2[i] << std::endl;
             exit(EXIT_FAILURE);
         }
     }
