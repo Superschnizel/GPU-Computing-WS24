@@ -119,8 +119,8 @@ int main() {
     // pretty_print(size, vec_a, vec_b, mat);
 
 
-    const int numberOfThreadsPerBlock = GRIDSIZE * GRIDSIZE;
-    const int oneDimBlockCount = ceil(size / (double) numberOfThreadsPerBlock);
+    int numberOfThreadsPerBlock = GRIDSIZE * GRIDSIZE;
+    int oneDimBlockCount = ceil(size / (double) numberOfThreadsPerBlock);
 
     vectorAdd << oneDimBlockCount, numberOfThreadsPerBlock >> (d_vec_a, d_vec_b, d_out, size);
 
