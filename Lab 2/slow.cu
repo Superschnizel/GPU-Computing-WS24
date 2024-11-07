@@ -123,7 +123,7 @@ int main() {
 //    int oneDimBlockCount = (int) ceil(size / (double) numberOfThreadsPerBlock);
 
     int numberOfThreadsPerBlock = 256;
-    int oneDimBlockCount = (int) ceil(size / (double) numberOfThreadsPerBlock);
+    int oneDimBlockCount = size / numberOfThreadsPerBlock;
 
     vectorAdd<<oneDimBlockCount, numberOfThreadsPerBlock>>(d_vec_a, d_vec_b, d_out, size);
 
