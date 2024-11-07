@@ -64,7 +64,7 @@ __global__ void setZero(int32_t *A) {
 }
 
 __global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *B, const int32_t *M, int32_t *out) {
-    int i = threadIdx.x + blockIdx.x * blockDim.x;
+    int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (i >= size) {
         return;
@@ -73,7 +73,7 @@ __global__ void matrixMult(const int32_t size, const int32_t *A, const int32_t *
     int32_t sum = 0;
 
     for (auto j = 0; j < size; j++) {
-        sum += (A[j] + B[j]) * M[j * size + i];
+        sum += M[j * size + i];
     }
 
     out[i] = sum;
