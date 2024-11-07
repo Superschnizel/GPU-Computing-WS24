@@ -183,7 +183,7 @@ int main() {
     std::cout << "matrix mult" << std::endl;
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_vec_a, d_vec_b, d_mat, d_out);
 
-    cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
