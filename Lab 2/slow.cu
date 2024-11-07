@@ -174,7 +174,7 @@ int main() {
     matrixMult<<<oneDimBlockCount, numberOfThreadsPerBlock>>>(size, d_out, d_mat, d_vec_a);
     check(cudaGetLastError(), "Failed to launch matrixMult kernel");
 
-    cudaError_t cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
+     cudaerror = cudaDeviceSynchronize(); // waits for completion, returns error code
     if (cudaerror != cudaSuccess)
         fprintf(stderr, "Cuda failed to synchronize: %s\n", cudaGetErrorName(cudaerror)); // if error, output error
 
