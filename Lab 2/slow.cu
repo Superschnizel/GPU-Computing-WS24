@@ -2,6 +2,7 @@
 #include <random>
 #include <iostream>
 #include <chrono>
+#include <vector>
 
 #define GRIDSIZE 16.0
 
@@ -95,18 +96,24 @@ int main() {
 
     cudaError_t err = cudaSuccess;
 
-    auto h_vec_a = (int32_t *) malloc(sizeof(int32_t) * size);
-    auto h_vec_b = (int32_t *) malloc(sizeof(int32_t) * size);
+//    auto h_vec_a = (int32_t *) malloc(sizeof(int32_t) * size);
+//    auto h_vec_b = (int32_t *) malloc(sizeof(int32_t) * size);
+//    // Flat Buffer for matrix
+//    auto h_mat = (int32_t *) malloc(sizeof(int32_t) * size * size);
+//    if (h_mat == NULL) {
+//        std::cout << "mat is NULL!" << std::endl;
+//        return ;
+//    }
+//
+//    auto h_out = (int32_t *) malloc(sizeof(int32_t) * size);
+
+    auto h_vec_a = std::vector<int32_t>(size);
+    auto h_vec_b = std::vector<int32_t>(size);
+    auto h_out = std::vector<int32_t>(size);
     // Flat Buffer for matrix
-    auto h_mat = (int32_t *) malloc(sizeof(int32_t * ) * size * size);
-    if (h_mat == NULL) {
-        std::cout << "mat is NULL!" << std::endl;
-        return ;
-    }
+    auto h_mat = std::vector<int32_t>(size * size);
 
-    auto h_out = (int32_t *) malloc(sizeof(int32_t) * size);
-
-    init(size, h_vec_a, h_vec_b, h_mat);
+    init(size, h_vec_a.data(), h_vec_b.data(), h_mat.data());
 
     int32_t *d_vec_a = NULL;
     err = cudaMalloc((void **) &d_vec_a, size);
