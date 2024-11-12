@@ -5,7 +5,7 @@
 
 #include "helper.cu"
 
-#define BLOCK_DIM 512
+#define BLOCK_DIM 64
 
 void sequential_scan(size_t size, float *in_h, float *out_h)
 {
@@ -126,7 +126,8 @@ __global__ void finish_scan(size_t size, float *output)
 
 int main()
 {
-  size_t size = 33554432 * 2;
+  // size_t size = 33554432 * 2;
+  size_t size = 2048 * 2;
   float *in_d, *in_h, *out_d, *out_h, *out_h2;
 
   // Allocate on host
